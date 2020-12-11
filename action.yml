@@ -48,6 +48,10 @@ inputs:
     description: 'Unique identifier that identifies this product notarization. Defaults to the bundle identifier of the app you are uploading.'
     required: false
 
+  asc-provider:
+    description: 'The ProviderShortname used for notarization. Can be left empty if your appstore-connect-user is associated with only a single team.'
+    required: false
+
   verbose:
     description: "Verbose mode will print Notarization API responses."
     required: false

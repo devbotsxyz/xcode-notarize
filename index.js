@@ -25,7 +25,6 @@ const core = require('@actions/core');
 const execa = require('execa');
 const plist = require('plist');
 
-
 const sleep = (ms) => {
     return new Promise(res => setTimeout(res, ms));
 };
@@ -37,6 +36,7 @@ const parseConfiguration = () => {
         username: core.getInput("appstore-connect-username", {required: true}),
         password: core.getInput("appstore-connect-password", {required: true}),
         primaryBundleId: core.getInput("primary-bundle-id"),
+        ascProvider: core.getInput("asc-provider"),
         verbose: core.getInput("verbose") === "true",
     };
 
@@ -70,7 +70,7 @@ const archive = async ({productPath}) => {
 };
 
 
-const submit = async ({productPath, archivePath, primaryBundleId, username, password, verbose}) => {
+const submit = async ({productPath, archivePath, primaryBundleId, username, password, ascProvider, verbose}) => {
     //
     // Make sure the product exists.
     //
@@ -114,6 +114,11 @@ const submit = async ({productPath, archivePath, primaryBundleId, username, pass
         "-u", username,
         "-p", password
     ];
+
+    if (ascProvider !== null && ascProvider !== "") {
+        args.push("--asc-provider")
+        args.push(ascProvider);
+    }
 
     if (verbose === true) {
         args.push("--verbose");
